@@ -1,3 +1,0 @@
-C:/Users/edgar/Downloads/Motores/practica03/practica03-motor/build/CMakeFiles/practica03_motor.dir
-C:/Users/edgar/Downloads/Motores/practica03/practica03-motor/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/edgar/Downloads/Motores/practica03/practica03-motor/build/CMakeFiles/ZERO_CHECK.dir

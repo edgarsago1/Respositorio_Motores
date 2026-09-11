@@ -1,2 +1,0 @@
-C:\Users\edgar\Downloads\Motores\practica03\practica03-motor\build\Debug\SDL3.dll
-C:\Users\edgar\Downloads\Motores\practica03\practica03-motor\build\practica03_motor.dir\Debug\practica.1FAA8CE6.Up2Date
