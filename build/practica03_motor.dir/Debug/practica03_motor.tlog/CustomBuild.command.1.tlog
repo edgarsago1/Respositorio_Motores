@@ -1,0 +1,10 @@
+^C:\USERS\EDGAR\DOWNLOADS\MOTORES\PRACTICA03\PRACTICA03-MOTOR\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/edgar/Downloads/Motores/practica03/practica03-motor -BC:/Users/edgar/Downloads/Motores/practica03/practica03-motor/build --check-stamp-file C:/Users/edgar/Downloads/Motores/practica03/practica03-motor/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
