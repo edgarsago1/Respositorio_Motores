@@ -10,6 +10,7 @@ class Component
 public:
 // Puntero de vuelta al padre
 GameObject *owner{nullptr};
+virtual void OnCollision(GameObject *other){}
 // Destructor virtual
 virtual ~Component() = default;
 

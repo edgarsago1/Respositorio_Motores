@@ -68,6 +68,15 @@ public:
         return GetComponent<T>() != nullptr;
     }
 
+    void OnCollision(GameObject *other)
+    {
+        if (!m_active) return;
+        for (auto &component : m_components)
+        {
+            component->OnCollision(other);
+        }
+    }
+    
     // Propagación del ciclo de vida a todos los componentes hijos
     void Update(float dt)
     {
