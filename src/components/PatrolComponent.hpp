@@ -1,8 +1,8 @@
 #pragma once
 #include <cmath>
-#include "Component.hpp"
-#include "GameObject.hpp"
-#include "TransformComponent.hpp"
+#include "../core/Component.hpp"
+#include "../core/GameObject.hpp"
+#include "../components/TransformComponent.hpp"
 
 class PatrolComponent : public Component
 {

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(practica04_motor LANGUAGES CXX)
+project(practica05_motor LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -20,16 +20,22 @@ find_package(SDL3 CONFIG REQUIRED)
 # Generamos el ejecutable con el nombre del proyecto
 add_executable(${PROJECT_NAME}
 src/main.cpp
-src/Vector2.hpp
-src/Component.hpp
-src/GameObject.hpp
-src/TransformComponent.hpp
-src/RectRenderComponent.hpp
-src/PlayerControllerComponent.hpp
-src/PatrolComponent.hpp
-src/ColliderComponent.hpp
-src/CollisionManager.hpp
-src/BallComponent.hpp
+src/core/Vector2.hpp
+src/core/Component.hpp
+src/core/GameObject.hpp
+src/components/TransformComponent.hpp
+src/components/RectRenderComponent.hpp
+src/components/PlayerControllerComponent.hpp
+src/components/PatrolComponent.hpp
+src/components/ColliderComponent.hpp
+src/managers/CollisionManager.hpp
+src/components/BallComponent.hpp
+src/core/Scene.hpp
+src/managers/SceneManager.hpp
+src/scenes/TitleScene.hpp
+src/scenes/GameScene.hpp
+src/scenes/PauseScene.hpp
+src/scenes/GameOverScene.hpp
 )
 target_include_directories(${PROJECT_NAME} PRIVATE src)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL3_TARGET})

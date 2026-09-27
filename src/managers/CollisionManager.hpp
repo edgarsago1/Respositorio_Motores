@@ -1,15 +1,19 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include <GameObject.hpp>
-#include <ColliderComponent.hpp>
+#include "../core/GameObject.hpp"
+#include "../components/ColliderComponent.hpp"
+
 class CollisionManager{
     public:
     std::vector<std::unique_ptr<GameObject>>* m_entities;
-
+    CollisionManager() = default;
     // Constructor del manejador, le damos la lista de los objetos de juego que implementaran físicas.
     explicit CollisionManager(std::vector<std::unique_ptr<GameObject>>*entities): m_entities{entities}{}
-
+    
+    void SetEntities(std::vector<std::unique_ptr<GameObject>>* entities){
+        m_entities = entities;
+    }
     // Determina si hay una colisión entre dos objetos
     bool CheckAABB(const SDL_FRect &a, const SDL_FRect &b){
         return (a.x < (b.x + b.w)) && ((a.x + a.w) > b.x) && (a.y < (b.y +b.h)) && ((a.y + a.h) > b.y);

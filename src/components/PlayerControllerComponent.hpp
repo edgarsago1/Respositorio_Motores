@@ -2,11 +2,11 @@
 
 #include <SDL3/SDL.h>
 
-#include "Component.hpp"
-#include "GameObject.hpp"
-#include "TransformComponent.hpp"
-#include "RectRenderComponent.hpp"
-#include "Vector2.hpp"
+#include "../core/Component.hpp"
+#include "../core/GameObject.hpp"
+#include "../components/TransformComponent.hpp"
+#include "../components/RectRenderComponent.hpp"
+#include "../core/Vector2.hpp"
 class PlayerControllerComponent : public Component
 {
     public:

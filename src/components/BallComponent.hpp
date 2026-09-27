@@ -1,8 +1,8 @@
 #pragma once
-#include "Vector2.hpp"
-#include "TransformComponent.hpp"
-#include "Component.hpp"
-#include "GameObject.hpp"
+#include "../core/Vector2.hpp"
+#include "../components/TransformComponent.hpp"
+#include "../core/Component.hpp"
+#include "../core/GameObject.hpp"
 
 class BallComponent : public Component{
     public:

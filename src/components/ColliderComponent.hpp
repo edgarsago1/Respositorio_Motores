@@ -1,8 +1,8 @@
 #pragma once
-#include "Component.hpp"
-#include "Vector2.hpp"
-#include "TransformComponent.hpp"
-#include "GameObject.hpp"  
+#include "../core/Component.hpp"
+#include "../core/Vector2.hpp"
+#include "../components/TransformComponent.hpp"
+#include "../core/GameObject.hpp"  
 class ColliderComponent : public Component{
     public:
     Vector2 offset{0.0f, 0.0f};
