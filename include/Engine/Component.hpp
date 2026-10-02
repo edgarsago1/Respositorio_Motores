@@ -16,6 +16,12 @@ virtual ~Component() = default;
 
 // Métodos virtuales del ciclo de vida
 virtual void Init() {}
+
+// Actualización por fotograma de renderizado.
 virtual void Update(float dt) {}
+
+// Actualización de física a paso de tiempo fijo
+virtual void FixedUpdate(float fixed_dt){}
+
 virtual void Render(SDL_Renderer *renderer) {}
 };

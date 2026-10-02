@@ -11,5 +11,5 @@ class PlayerControllerComponent : public Component
         PlayerControllerComponent() = default;
         explicit PlayerControllerComponent(float spd, bool mouse_follow = true) : speed(spd), follow_mouse(mouse_follow) {}
 
-        void Update(float dt) override;
+        void FixedUpdate(float fixed_dt) override;
 };

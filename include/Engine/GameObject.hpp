@@ -65,8 +65,10 @@ public:
 
     void OnCollision(GameObject *other);
 
-    // Propagación del ciclo de vida a todos los componentes hijos
+    // Se declara Update, pero por el momento no se usa en los gameObjects que tenemos disponibles.
     void Update(float dt);
+    
+    void FixedUpdate(float fixed_dt);
 
     void Render(SDL_Renderer *renderer);
 };

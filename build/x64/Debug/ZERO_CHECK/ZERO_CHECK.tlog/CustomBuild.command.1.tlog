@@ -1,0 +1,10 @@
+^C:\USERS\EDGAR\DOWNLOADS\MOTORES\PROYECTO1\PROYECTO1\BUILD\CMAKEFILES\6E4A341FC397A6C0B7C9642E065AE6E2\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/edgar/Downloads/Motores/Proyecto1/proyecto1 -BC:/Users/edgar/Downloads/Motores/Proyecto1/proyecto1/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/edgar/Downloads/Motores/Proyecto1/proyecto1/build/proyecto1.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

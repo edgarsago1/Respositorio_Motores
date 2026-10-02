@@ -44,12 +44,15 @@
         constexpr float FIXED_TIMESTEP = 1.0f / 60.0f;
         m_physicsAccumulator += dt;
         while (m_physicsAccumulator >= FIXED_TIMESTEP){
-            for (auto &entity : m_entities){
-                entity->Update(FIXED_TIMESTEP);
-            }
+            for (auto &entity : m_entities)
+                if(entity && entity->IsActive())
+                    entity->FixedUpdate(FIXED_TIMESTEP);
             m_collisionManager.CheckCollisions();
             m_physicsAccumulator -= FIXED_TIMESTEP;
         }
+        for (auto &entity : m_entities)
+            if(entity && entity->IsActive())
+                entity->Update(dt);
     }
 
     void GameScene::HandleEvent(const SDL_Event &event){

@@ -25,7 +25,11 @@ public:
     virtual void Exit();
 
     virtual void HandleEvent(const SDL_Event&);
+
     virtual void Update(float dt);
+
+    virtual void FixedUpdate(float fixed_dt);
+    
     virtual void Render(SDL_Renderer* renderer);
 
     GameObject* CreateGameObject(std::string tag);

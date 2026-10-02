@@ -9,7 +9,6 @@ class BallComponent : public Component{
     Vector2 velocity{220.0f, 180.0f};
     Vector2 ball_size{24.0f, 24.0f};
 
-    void Update(float dt) override;
-
+    void FixedUpdate(float fixed_dt) override;
     void OnCollision(GameObject *other) override;
 };

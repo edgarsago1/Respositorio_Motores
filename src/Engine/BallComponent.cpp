@@ -6,15 +6,14 @@
 #include "../../include/Engine/GameObject.hpp"
 #include "../../include/Physics/ColliderComponent.hpp"
 
-void BallComponent::Update(float dt){
+void BallComponent::FixedUpdate(float fixed_dt){
         if (!owner) return;
         TransformComponent *transform = owner->GetComponent<TransformComponent>();
         if (!transform) return;
-        transform->Translate(velocity * dt);
+        transform->Translate(velocity * fixed_dt);
         ColliderComponent* collider = owner->GetComponent<ColliderComponent>();
         if (collider) 
             ball_size = collider->size * transform->scale.x;
-        //No estoy muy seguro de esto 
         if(transform->position.x <= 0.0f){
             transform->position.x = 0;
             velocity.x = std::abs(velocity.x);

@@ -16,4 +16,6 @@ void Scene::HandleEvent(const SDL_Event&){}
 
 void Scene::Update(float){}
 
+void Scene::FixedUpdate(float fixed_dt){}
+
 void Scene::Render(SDL_Renderer*){}

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Engine\BallComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Engine\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Engine\PlayerControllerComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Engine\RectRenderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Engine\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Engine\SceneManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Engine\TransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Game\GameOverScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Game\GameScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Game\PauseScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Game\TitleScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Math\Vector2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Physics\ColliderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\src\Physics\CollisionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{57AD86E8-B3A9-3385-88C0-14D8C0D818E6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
