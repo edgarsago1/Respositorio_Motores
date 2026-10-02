@@ -1,2 +1,0 @@
-C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\build\Debug\SDL3.dll
-C:\Users\edgar\Downloads\Motores\Proyecto1\proyecto1\build\proyecto1.dir\Debug\proyecto1.vcxproj.Up2Date
