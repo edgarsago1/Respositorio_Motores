@@ -11,10 +11,7 @@ void RectRenderComponent::Render(SDL_Renderer *renderer)
 
         TransformComponent *transform = owner->GetComponent<TransformComponent>();
 
-        if (!transform)
-        {
-            return; // No podemos renderizar si la entidad no tiene posición en el mundo
-        }
+        if (!transform) return; // No podemos renderizar si la entidad no tiene posición en el mundo
 
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 

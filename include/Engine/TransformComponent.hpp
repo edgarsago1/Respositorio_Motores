@@ -14,4 +14,5 @@ class TransformComponent : public Component
     TransformComponent(Vector2 pos, Vector2 scl) : position(pos), scale(scl) {}
 
     void Translate(const Vector2 &offset);
+    void Rotate(const float angular_speed, Vector2* orientation_vector);
 };

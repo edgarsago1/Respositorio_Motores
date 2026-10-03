@@ -3,7 +3,8 @@
 #include "../../include/Engine/GameObject.hpp"
 #include "../../include/Engine/TransformComponent.hpp"
 #include "../../include/Engine/RectRenderComponent.hpp"
-#include "../../include/Engine/PlayerControllerComponent.hpp"
+#include "../../include/Engine/TriangleRenderComponent.hpp"
+#include "../../include/Engine/ShipControllerComponent.hpp"
 #include "../../include/Engine/BallComponent.hpp"
 #include "../../include/Engine/SceneManager.hpp"
 #include "../../include/Game/PauseScene.hpp"
@@ -16,9 +17,9 @@
             auto player = std::make_unique<GameObject>("Player");
             player->AddComponent<TransformComponent>(Vector2{440.0f, 240.0f},
             Vector2{1.0f, 1.0f});
-            player->AddComponent<RectRenderComponent>(Vector2{60.0f, 60.0f},
-            SDL_Color{60, 180, 100, 255});
-            player->AddComponent<PlayerControllerComponent>(300.0f, true);
+            player->AddComponent<TriangleRenderComponent>(Vector2{120.0f, 120.0f},
+            SDL_Color{255, 255, 255, 255});
+            player->AddComponent<ShipControllerComponent>(300.0f, 3.0f, false);
             player->AddComponent<ColliderComponent>(Vector2{60.0f, 60.0f});
             m_entities.push_back(std::move(player));
 
@@ -74,10 +75,12 @@
     void GameScene::Render(SDL_Renderer *renderer){
         SDL_SetRenderDrawColor(renderer, 25, 25, 30, 255);
         SDL_RenderClear(renderer);
-        for (auto &entity : m_entities)
+        for (auto &entity : m_entities){
             if (auto *square = entity->GetComponent<RectRenderComponent>())
                 square->Render(renderer);
-
+            if (auto *triangle = entity->GetComponent<TriangleRenderComponent>())
+                triangle->Render(renderer);
+        }
         if (m_debugDraw)
             for (auto &entity : m_entities)
                 if (auto *col = entity->GetComponent<ColliderComponent>())
