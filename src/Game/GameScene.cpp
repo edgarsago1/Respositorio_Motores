@@ -17,7 +17,7 @@
             auto player = std::make_unique<GameObject>("Player");
             player->AddComponent<TransformComponent>(Vector2{440.0f, 240.0f},
             Vector2{1.0f, 1.0f});
-            player->AddComponent<TriangleRenderComponent>(Vector2{120.0f, 120.0f},
+            player->AddComponent<TriangleRenderComponent>(Vector2{70.0f, 70.0f},
             SDL_Color{255, 255, 255, 255});
             player->AddComponent<ShipControllerComponent>(300.0f, 3.0f, false);
             player->AddComponent<ColliderComponent>(Vector2{60.0f, 60.0f});

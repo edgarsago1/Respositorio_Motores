@@ -1,5 +1,6 @@
 #include "../../include/Engine/ShipControllerComponent.hpp"
 
+#include <cmath>
 #include "../../include/Engine/TransformComponent.hpp"
 #include "../../include/Engine/GameObject.hpp"
 #include "../../include/Engine/TriangleRenderComponent.hpp"
@@ -29,7 +30,21 @@ void ShipControllerComponent::FixedUpdate(float fixed_dt){
                 transform->Rotate(current_angular_speed, &trianglevertex[1]);
                 } 
         } else {
-            
+            Vector2 mouse_pos;
+            SDL_GetMouseState(&mouse_pos.x, &mouse_pos.y);
+            Vector2 mouse_dir = mouse_pos - transform->position;
+            mouse_dir = mouse_dir.normalized(); // Puede quitarse o no dependiendo de las pruebas
+            float walk_angle = static_cast<float>(std::atan2(mouse_dir.y, mouse_dir.x));
+            orientation.x = std::cos(walk_angle);
+            orientation.y = std::sin(walk_angle);
+            orientation = orientation.normalized();
+            Vector2 perpendicular{
+                -orientation.y,
+                orientation.x
+            };
+            Vector2 baseCenter = orientation * 0.0f; // Ajusta la posición de la base del triángulo según sea necesario
+            trianglevertex[0] = baseCenter + perpendicular * 0.5f;
+            trianglevertex[1] = baseCenter - perpendicular * 0.5f;
         }
         if(buttons & SDL_BUTTON_LMASK) left_click_pressed = true;        
         Vector2 final_direction = {0, 0};
