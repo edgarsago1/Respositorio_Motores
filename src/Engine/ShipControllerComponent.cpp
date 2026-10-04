@@ -57,10 +57,9 @@ void ShipControllerComponent::FixedUpdate(float fixed_dt){
         }
         Vector2 displacement = final_direction * (speed * fixed_dt);
         transform->Translate(displacement);
-        // 5. Mantener dentro de la ventana (960 x 540)
+        // Mantener dentro de la ventana (960 x 540)
         Vector2 max_bounds{960.0f, 540.0f};
-        if (auto *rect = owner->GetComponent<TriangleRenderComponent>())
-            max_bounds = max_bounds - (rect->size * transform->scale.x);
+        Vector2 size_triangle{0, 0};
         transform->position = transform->position.clamp(Vector2{0.0f, 0.0f}, max_bounds);
         
 }

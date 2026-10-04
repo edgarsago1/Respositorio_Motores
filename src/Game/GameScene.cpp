@@ -20,7 +20,7 @@
             player->AddComponent<TriangleRenderComponent>(Vector2{70.0f, 70.0f},
             SDL_Color{255, 255, 255, 255});
             player->AddComponent<ShipControllerComponent>(300.0f, 3.0f, false);
-            player->AddComponent<ColliderComponent>(Vector2{60.0f, 60.0f});
+            player->AddComponent<ColliderComponent>(Vector2{22.0f, 22.0f});
             m_entities.push_back(std::move(player));
 
             // Entidad Obstáculo: reutiliza Transform y RectRender sin necesitar PlayerController
