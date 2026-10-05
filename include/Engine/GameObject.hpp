@@ -4,13 +4,16 @@
 #include <string>
 #include <memory>
 #include <vector>
+class Scene;
+
 class GameObject
 {
 private:
     std::vector<std::unique_ptr<Component>> m_components;
     std::string m_tag{"GameObject"};
     bool m_active{true};
-
+    bool m_destroyed{false};
+    Scene* m_scene{nullptr};
 public:
     GameObject() = default;
     explicit GameObject(std::string tag) : m_tag(std::move(tag)) {}
@@ -30,6 +33,14 @@ public:
     bool IsActive() const { return m_active; }
     void SetActive(bool active) { m_active = active; }
 
+    bool IsDestroyed() const { return m_destroyed; }
+    void SetScene(Scene* scene){
+        m_scene = scene;
+    }
+
+    Scene* GetScene() const{
+        return m_scene;
+    }
     // Para armar componentes con reenvío perfecto
     template <typename T, typename... Args> T *AddComponent(Args &&...args)
     {
@@ -71,4 +82,11 @@ public:
     void FixedUpdate(float fixed_dt);
 
     void Render(SDL_Renderer *renderer);
+
+    std::unique_ptr<GameObject> Clone(const std::string &new_tag) const;
+
+    // Usamos una bandera para señalar a la escena y manejador de colisiones que este GameObject será destruido
+    void Destroy(){
+        m_destroyed = true;
+    }
 };

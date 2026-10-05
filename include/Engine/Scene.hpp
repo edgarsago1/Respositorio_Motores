@@ -35,4 +35,7 @@ public:
     GameObject* CreateGameObject(std::string tag);
 
     std::vector<std::unique_ptr<GameObject>>& GetEntities();
+
+    // Una función que inserta un objeto y sus componentes a la escena, recibe un objeto y lo añade dentro de m_entities
+    virtual void Spawn(std::unique_ptr<GameObject> object);
 };

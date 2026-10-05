@@ -26,6 +26,10 @@
         // Segunda etapa
         for(int i = 0; i < m_entities-> size()-1 ; i++){
             for(int j = i + 1; j < m_entities-> size(); j++){
+                if ((*m_entities)[i]->IsDestroyed())
+                    continue;
+                if ((*m_entities)[j]->IsDestroyed())
+                    continue;
                 ColliderComponent *collider_i = (*m_entities)[i]->GetComponent<ColliderComponent>();
                 if(!collider_i)
                     continue;

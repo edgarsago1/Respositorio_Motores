@@ -1,5 +1,8 @@
 #include "../../include/Game/GameScene.hpp"
 
+#include <algorithm>
+#include <memory>
+#include <vector>
 #include "../../include/Engine/GameObject.hpp"
 #include "../../include/Engine/TransformComponent.hpp"
 #include "../../include/Engine/RectRenderComponent.hpp"
@@ -10,16 +13,18 @@
 #include "../../include/Game/PauseScene.hpp"
 #include "../../include/Game/GameOverScene.hpp"
 
+
     void GameScene::Init(){
             m_entities.clear();
             m_collisionManager.SetEntities(&m_entities);
             // Armamos del Jugador
             auto player = std::make_unique<GameObject>("Player");
+            player->SetScene(this);
             player->AddComponent<TransformComponent>(Vector2{440.0f, 240.0f},
             Vector2{1.0f, 1.0f});
             player->AddComponent<TriangleRenderComponent>(Vector2{70.0f, 70.0f},
             SDL_Color{255, 255, 255, 255});
-            player->AddComponent<ShipControllerComponent>(300.0f, 3.0f, false);
+            player->AddComponent<ShipControllerComponent>(300.0f, 3.0f, 10, true);
             player->AddComponent<ColliderComponent>(Vector2{22.0f, 22.0f});
             m_entities.push_back(std::move(player));
 
@@ -46,14 +51,16 @@
         m_physicsAccumulator += dt;
         while (m_physicsAccumulator >= FIXED_TIMESTEP){
             for (auto &entity : m_entities)
-                if(entity && entity->IsActive())
+                if(entity && entity->IsActive() && !entity->IsDestroyed())
                     entity->FixedUpdate(FIXED_TIMESTEP);
             m_collisionManager.CheckCollisions();
             m_physicsAccumulator -= FIXED_TIMESTEP;
         }
         for (auto &entity : m_entities)
-            if(entity && entity->IsActive())
+            if(entity && entity->IsActive() && !entity->IsDestroyed())
                 entity->Update(dt);
+        RemoveDestroyedObjects();
+        ProcessPendingObjects();
     }
 
     void GameScene::HandleEvent(const SDL_Event &event){
@@ -76,13 +83,36 @@
         SDL_SetRenderDrawColor(renderer, 25, 25, 30, 255);
         SDL_RenderClear(renderer);
         for (auto &entity : m_entities){
+            if(entity->IsDestroyed() || !entity->IsActive())
+                continue;
             if (auto *square = entity->GetComponent<RectRenderComponent>())
                 square->Render(renderer);
             if (auto *triangle = entity->GetComponent<TriangleRenderComponent>())
                 triangle->Render(renderer);
         }
         if (m_debugDraw)
-            for (auto &entity : m_entities)
+            for (auto &entity : m_entities){
+                if(entity->IsDestroyed() || !entity->IsActive())
+                    continue;
                 if (auto *col = entity->GetComponent<ColliderComponent>())
                     col->RenderDebug(renderer);
+            }
+    }
+
+    void GameScene::RemoveDestroyedObjects(){
+        std::erase_if(m_entities, [](const std::unique_ptr<GameObject>& object){
+            return object->IsDestroyed();
+        });
+}
+
+    void GameScene::Spawn(std::unique_ptr<GameObject> object){
+        object->SetScene(this);
+        m_pendingObjects.push_back(std::move(object));
+    }
+
+    void GameScene::ProcessPendingObjects(){
+        for(auto &obj : m_pendingObjects){
+            m_entities.push_back(std::move(obj));
+        }
+        m_pendingObjects.clear();
     }

@@ -19,3 +19,5 @@ void Scene::Update(float){}
 void Scene::FixedUpdate(float fixed_dt){}
 
 void Scene::Render(SDL_Renderer*){}
+
+void Scene::Spawn(std::unique_ptr<GameObject> object){}

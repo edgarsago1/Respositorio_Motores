@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL.h>
-
+#include <memory>
 // Declaración anticipada (Forward Declaration)
 class GameObject;
 
@@ -24,4 +24,9 @@ virtual void Update(float dt) {}
 virtual void FixedUpdate(float fixed_dt){}
 
 virtual void Render(SDL_Renderer *renderer) {}
+
+virtual std::unique_ptr<Component> Clone() const
+{
+    return nullptr;
+}
 };

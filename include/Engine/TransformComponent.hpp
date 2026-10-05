@@ -15,4 +15,6 @@ class TransformComponent : public Component
 
     void Translate(const Vector2 &offset);
     void Rotate(const float angular_speed, Vector2* orientation_vector);
+    // Nueva función que permite transportar a un objeto a una posición nueva, en este caso, hacemos que su posición sea el extremo contrario de la pantalla que pasó
+    void teleportObject(Vector2 max_bounds, Vector2 min_bounds);
 };

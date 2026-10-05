@@ -3,7 +3,11 @@
 #include <cmath>
 #include "../../include/Engine/TransformComponent.hpp"
 #include "../../include/Engine/GameObject.hpp"
+#include "../../include/Engine/Scene.hpp"
 #include "../../include/Engine/TriangleRenderComponent.hpp"
+#include "../../include/Engine/RectRenderComponent.hpp"
+#include "../../include/Engine/ProjectileComponent.hpp"
+#include "../../include/Physics/ColliderComponent.hpp"
 
 void ShipControllerComponent::FixedUpdate(float fixed_dt){
 
@@ -13,6 +17,7 @@ void ShipControllerComponent::FixedUpdate(float fixed_dt){
         // Lectura continua de teclado
         left_click_pressed = false;
         const bool *keys = SDL_GetKeyboardState(nullptr);
+        bool advance_mouse_control = false;
         SDL_MouseButtonFlags buttons = SDL_GetMouseState(nullptr, nullptr);
 
         if (keys[SDL_SCANCODE_1]) follow_mouse = !follow_mouse; // Por el momento haremos que 1 alterne el modo de movimiento}
@@ -33,6 +38,7 @@ void ShipControllerComponent::FixedUpdate(float fixed_dt){
             Vector2 mouse_pos;
             SDL_GetMouseState(&mouse_pos.x, &mouse_pos.y);
             Vector2 mouse_dir = mouse_pos - transform->position;
+            if (mouse_dir.length() >= 25.0f){
             mouse_dir = mouse_dir.normalized(); // Puede quitarse o no dependiendo de las pruebas
             float walk_angle = static_cast<float>(std::atan2(mouse_dir.y, mouse_dir.x));
             orientation.x = std::cos(walk_angle);
@@ -45,6 +51,8 @@ void ShipControllerComponent::FixedUpdate(float fixed_dt){
             Vector2 baseCenter = orientation * 0.0f; // Ajusta la posición de la base del triángulo según sea necesario
             trianglevertex[0] = baseCenter + perpendicular * 0.5f;
             trianglevertex[1] = baseCenter - perpendicular * 0.5f;
+            advance_mouse_control = true;
+            }
         }
         if(buttons & SDL_BUTTON_LMASK) left_click_pressed = true;        
         Vector2 final_direction = {0, 0};
@@ -52,16 +60,26 @@ void ShipControllerComponent::FixedUpdate(float fixed_dt){
             if(keys[SDL_SCANCODE_W] || keys[SDL_SCANCODE_UP])
                 final_direction = orientation;
         } else {
-            if(left_click_pressed)
+            if(left_click_pressed && advance_mouse_control)
                 final_direction = orientation;
         }
+
+        current_cooldown--; // llevamos la cuenta de fotogramas para marcar el cooldown de proyectiles
+        if(((buttons & SDL_BUTTON_RMASK) || keys[SDL_SCANCODE_RETURN] ) && current_cooldown <= 0){
+            current_cooldown = shoot_cooldown;
+            auto projectile = std::make_unique<GameObject>("Projectile");
+            projectile->AddComponent<TransformComponent>(transform->position + orientation * 30.0f, Vector2{1.0f, 1.0f});
+            projectile->AddComponent<RectRenderComponent>(Vector2{5.0f, 5.0f}, SDL_Color{255, 255, 255, 255});
+            projectile->AddComponent<ProjectileComponent>(Vector2{speed*2, speed*2}, Vector2{5.0f, 5.0f}, orientation, 200.0f);
+            projectile->AddComponent<ColliderComponent>(Vector2{5.0f, 5.0f});
+            owner->GetScene()->Spawn(std::move(projectile));
+        }    
         Vector2 displacement = final_direction * (speed * fixed_dt);
         transform->Translate(displacement);
         // Mantener dentro de la ventana (960 x 540)
         Vector2 max_bounds{960.0f, 540.0f};
         Vector2 size_triangle{0, 0};
-        transform->position = transform->position.clamp(Vector2{0.0f, 0.0f}, max_bounds);
-        
+        transform->teleportObject(max_bounds, {0.0f, 0.0f});   
 }
 
 Vector2 ShipControllerComponent::getOrientation(){
@@ -71,3 +89,4 @@ Vector2 ShipControllerComponent::getOrientation(){
 std::vector<Vector2> ShipControllerComponent::getTriangleVertex(){
     return trianglevertex;
 }
+
