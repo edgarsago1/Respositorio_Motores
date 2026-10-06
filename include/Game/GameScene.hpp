@@ -11,7 +11,8 @@ class GameScene : public Scene{
     using Scene::Scene;
     float m_physicsAccumulator{0.0f};
     bool m_debugDraw{false};
-
+    bool m_gameOver{false};
+    
     void Init() override;
     // Fase de Actualización: La misma que solíamos tener en main
     void Update(float dt) override;

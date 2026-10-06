@@ -12,13 +12,30 @@ void TriangleRenderComponent::Render(SDL_Renderer *renderer){
     // Consultamos la posición y escala al TransformComponent de nuestra entidad
     TransformComponent *transform = owner->GetComponent<TransformComponent>();
     ShipControllerComponent *ship = owner->GetComponent<ShipControllerComponent>();
+    if(transparent){
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        vertexColor.a = 0.5f;
+    }
+    
     if(!transform || !ship) return;
-    vertex[0] = {transform->position.x + (ship->getOrientation().x * size.x/2), transform->position.y + (ship->getOrientation().y * size.y/2)};
-    vertex[0].color =  vertexColor;
-    std::vector<Vector2> triangle_vertex = ship->getTriangleVertex();
-    vertex[1] = {transform->position.x + (triangle_vertex[0].x * size.x/2), transform->position.y + (triangle_vertex[0].y * size.y/2)}; 
-    vertex[1].color =  vertexColor;
-    vertex[2] = {transform->position.x + (triangle_vertex[1].x * size.x/2), transform->position.y + (triangle_vertex[1].y * size.y/2)}; 
-    vertex[2].color =  vertexColor;
-    SDL_RenderGeometry(renderer, nullptr, vertex, 3, nullptr, 0);
+    if(show){
+        vertex[0] = {transform->position.x + (ship->getOrientation().x * size.x/2), transform->position.y + (ship->getOrientation().y * size.y/2)};
+        vertex[0].color =  vertexColor;
+        std::vector<Vector2> triangle_vertex = ship->getTriangleVertex();
+        vertex[1] = {transform->position.x + (triangle_vertex[0].x * size.x/2), transform->position.y + (triangle_vertex[0].y * size.y/2)}; 
+        vertex[1].color =  vertexColor;
+        vertex[2] = {transform->position.x + (triangle_vertex[1].x * size.x/2), transform->position.y + (triangle_vertex[1].y * size.y/2)}; 
+        vertex[2].color =  vertexColor;
+        SDL_RenderGeometry(renderer, nullptr, vertex, 3, nullptr, 0);
+    }
+    vertexColor.a = 1.0f;
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+}
+
+void TriangleRenderComponent::setShow(bool new_show){
+    show = new_show;
+}
+
+void TriangleRenderComponent::setTransparent(bool new_transparent){
+    transparent = new_transparent;
 }

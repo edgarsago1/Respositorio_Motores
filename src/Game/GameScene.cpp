@@ -62,8 +62,12 @@
         m_physicsAccumulator += dt;
         while (m_physicsAccumulator >= FIXED_TIMESTEP){
             for (auto &entity : m_entities)
-                if(entity && entity->IsActive() && !entity->IsDestroyed())
+                if(entity && entity->IsActive() && !entity->IsDestroyed()){
                     entity->FixedUpdate(FIXED_TIMESTEP);
+                    if(auto *ship = entity->GetComponent<ShipControllerComponent>())
+                        if(ship->IsDefeated())
+                            m_gameOver = true;
+                }
             m_collisionManager.CheckCollisions();
             m_physicsAccumulator -= FIXED_TIMESTEP;
         }
@@ -75,6 +79,9 @@
     }
 
     void GameScene::HandleEvent(const SDL_Event &event){
+        if (m_gameOver) 
+            m_manager->PushScene(std::make_unique<GameOverScene>(m_manager, "GameOverScene"));
+        
         if (event.type == SDL_EVENT_KEY_DOWN){
             if(event.key.key == SDLK_F1){
                 m_debugDraw = !m_debugDraw;
@@ -85,7 +92,6 @@
             // Por el momento G es tecla de depuración, pero debe de haber una condición de derrota
             } else if(event.key.key == SDLK_G){
                 m_manager->PushScene(std::make_unique<GameOverScene>(m_manager, "GameOverScene"));
-
             }
         }
     }
