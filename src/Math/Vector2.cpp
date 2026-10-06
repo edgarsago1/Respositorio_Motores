@@ -58,3 +58,8 @@
             modified_vector.y = boundaries_down.y;
         return modified_vector;
     }
+
+    Vector2 Vector2::Rotated(float angle) const{
+        float angle_rad = angle * 3.1415926 / 180.0f;
+        return Vector2{x * std::cos(angle_rad) - y * std::sin(angle_rad), x * std::sin(angle_rad) + y * std::cos(angle_rad)};
+    }

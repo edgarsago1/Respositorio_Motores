@@ -70,7 +70,7 @@ void ShipControllerComponent::FixedUpdate(float fixed_dt){
             auto projectile = std::make_unique<GameObject>("Projectile");
             projectile->AddComponent<TransformComponent>(transform->position + orientation * 30.0f, Vector2{1.0f, 1.0f});
             projectile->AddComponent<RectRenderComponent>(Vector2{5.0f, 5.0f}, SDL_Color{255, 255, 255, 255});
-            projectile->AddComponent<ProjectileComponent>(Vector2{speed*2, speed*2}, Vector2{5.0f, 5.0f}, orientation, 200.0f);
+            projectile->AddComponent<ProjectileComponent>(speed*2, Vector2{5.0f, 5.0f}, orientation, 200.0f);
             projectile->AddComponent<ColliderComponent>(Vector2{5.0f, 5.0f});
             owner->GetScene()->Spawn(std::move(projectile));
         }    

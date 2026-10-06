@@ -30,6 +30,7 @@ src/Engine/TransformComponent.cpp
 src/Engine/ShipControllerComponent.cpp
 src/Engine/TriangleRenderComponent.cpp
 src/Engine/ProjectileComponent.cpp
+src/Engine/AsteroidComponent.cpp
 src/Game/GameOverScene.cpp
 src/Game/GameScene.cpp
 src/Game/PauseScene.cpp

@@ -13,7 +13,7 @@ private:
     std::string m_tag{"GameObject"};
     bool m_active{true};
     bool m_destroyed{false};
-    Scene* m_scene{nullptr};
+    Scene* m_scene{nullptr}; // Referencia a la escena, en general no se usa, solo es para objetos en el juego y permitir que inserten/eliminen elementos
 public:
     GameObject() = default;
     explicit GameObject(std::string tag) : m_tag(std::move(tag)) {}
@@ -34,10 +34,13 @@ public:
     void SetActive(bool active) { m_active = active; }
 
     bool IsDestroyed() const { return m_destroyed; }
+
+    // Hace set a la escena que está manejando al objeto
     void SetScene(Scene* scene){
         m_scene = scene;
     }
 
+    // Devuelve la escena que está ligada al 
     Scene* GetScene() const{
         return m_scene;
     }

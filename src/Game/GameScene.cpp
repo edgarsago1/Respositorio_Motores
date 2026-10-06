@@ -9,6 +9,7 @@
 #include "../../include/Engine/TriangleRenderComponent.hpp"
 #include "../../include/Engine/ShipControllerComponent.hpp"
 #include "../../include/Engine/BallComponent.hpp"
+#include "../../include/Engine/AsteroidComponent.hpp"
 #include "../../include/Engine/SceneManager.hpp"
 #include "../../include/Game/PauseScene.hpp"
 #include "../../include/Game/GameOverScene.hpp"
@@ -24,7 +25,7 @@
             Vector2{1.0f, 1.0f});
             player->AddComponent<TriangleRenderComponent>(Vector2{70.0f, 70.0f},
             SDL_Color{255, 255, 255, 255});
-            player->AddComponent<ShipControllerComponent>(300.0f, 3.0f, 10, true);
+            player->AddComponent<ShipControllerComponent>(300.0f, 3.0f, 20, true);
             player->AddComponent<ColliderComponent>(Vector2{22.0f, 22.0f});
             m_entities.push_back(std::move(player));
 
@@ -44,6 +45,16 @@
             ball->AddComponent<ColliderComponent>(Vector2{24.0f, 24.0f});
             ball->AddComponent<BallComponent>();
             m_entities.push_back(std::move(ball));
+
+            auto asteroid = std::make_unique<GameObject>("Asteroid");
+            asteroid->SetScene(this);
+            asteroid->AddComponent<TransformComponent>(Vector2{380.0f, 240.0f},
+            Vector2{1.0f, 1.0f});
+            asteroid->AddComponent<AsteroidComponent>(2, Vector2{80.0f, 80.0f}, Vector2{1.0f, 0.0f}, 100.0f);
+            asteroid->AddComponent<RectRenderComponent>(Vector2{80.0f, 80.0f},
+            SDL_Color{0, 128, 0, 255});
+            asteroid->AddComponent<ColliderComponent>(Vector2{80.0f, 80.0f});
+            m_entities.push_back(std::move(asteroid));
         }
     // Fase de Actualización: La misma que solíamos tener en main
     void GameScene::Update(float dt){

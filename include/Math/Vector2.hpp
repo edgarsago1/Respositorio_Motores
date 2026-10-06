@@ -32,4 +32,7 @@ struct Vector2
     // Versión propia de clamp, guardamos los límites en un vector llamado boundaries, si el vector a revisar 
     // es mayor al límite de X o Y de Boundaries, se devuelve el valor de boundaries que se sobrepasó.
     Vector2 clamp(Vector2 boundaries_down, Vector2 boundaries_up) const;
+
+    // Hacemos la rotación de un Vector
+    Vector2 Rotated(float angle) const;
 };
