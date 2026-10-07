@@ -5,6 +5,7 @@
 #include "../../include/Engine/GameObject.hpp"
 #include "../../include/Engine/ProjectileComponent.hpp"
 #include "../../include/Engine/RectRenderComponent.hpp"
+#include "../../include/Engine/ExplosionComponent.hpp"
 #include "../../include/Physics/ColliderComponent.hpp"
 #include "../../include/Engine/Scene.hpp"
 
@@ -25,6 +26,12 @@ void AsteroidComponent::OnCollision(GameObject *other){
     if (!transform || !rect) return;
     ProjectileComponent *projectile_other = other->GetComponent<ProjectileComponent>();
     if (!projectile_other) return;
+    // Creamos una explosión en el lugar donde ocurrió la colisión
+    if(auto *transform = owner->GetComponent<TransformComponent>()){
+            auto explosion = std::make_unique<GameObject>("Explosion");
+            explosion->AddComponent<ExplosionComponent>(transform->position, 8);
+            owner->GetScene()->Spawn(std::move(explosion));
+    }
     if(stage > 0){
         Vector2 direction1 = direction.Rotated(20.0f);
         Vector2 direction2 = direction.Rotated(-20.0f);

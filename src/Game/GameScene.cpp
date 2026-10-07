@@ -10,6 +10,7 @@
 #include "../../include/Engine/ShipControllerComponent.hpp"
 #include "../../include/Engine/BallComponent.hpp"
 #include "../../include/Engine/AsteroidComponent.hpp"
+#include "../../include/Engine/ExplosionComponent.hpp"
 #include "../../include/Engine/SceneManager.hpp"
 #include "../../include/Game/PauseScene.hpp"
 #include "../../include/Game/GameOverScene.hpp"
@@ -106,6 +107,8 @@
                 square->Render(renderer);
             if (auto *triangle = entity->GetComponent<TriangleRenderComponent>())
                 triangle->Render(renderer);
+            if (auto *explosion = entity->GetComponent<ExplosionComponent>()) // Ahora se dibujan particular a la hora de impactarse la nave o algún asteroide.
+                explosion->Render(renderer);
         }
         if (m_debugDraw)
             for (auto &entity : m_entities){

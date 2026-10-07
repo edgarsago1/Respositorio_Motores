@@ -8,6 +8,7 @@
 #include "../../include/Engine/RectRenderComponent.hpp"
 #include "../../include/Engine/ProjectileComponent.hpp"
 #include "../../include/Engine/AsteroidComponent.hpp"
+#include "../../include/Engine/ExplosionComponent.hpp"
 #include "../../include/Physics/ColliderComponent.hpp"
 
 void ShipControllerComponent::FixedUpdate(float fixed_dt){
@@ -100,6 +101,11 @@ void ShipControllerComponent::OnCollision(GameObject *other){
     if(current_invincibleFrame <= 0 ){
         InvincibilityPeriod();
         lives--;
+        if(auto *transform = owner->GetComponent<TransformComponent>()){
+            auto explosion = std::make_unique<GameObject>("Explosion");
+            explosion->AddComponent<ExplosionComponent>(transform->position, 8);
+            owner->GetScene()->Spawn(std::move(explosion));
+        }
         SDL_Log("Player hit! Lives remaining: %d", lives);
     }
 

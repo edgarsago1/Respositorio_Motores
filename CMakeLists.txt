@@ -31,6 +31,7 @@ src/Engine/ShipControllerComponent.cpp
 src/Engine/TriangleRenderComponent.cpp
 src/Engine/ProjectileComponent.cpp
 src/Engine/AsteroidComponent.cpp
+src/Engine/ExplosionComponent.cpp
 src/Game/GameOverScene.cpp
 src/Game/GameScene.cpp
 src/Game/PauseScene.cpp
