@@ -17,4 +17,6 @@ class AsteroidComponent : public Component{
         // Hace una revisión de colisión solo si fue contra un proyectil, crea dos asteroides hijos dependiendo de su stage (stage == 0 implica 0 hijos) y destruye el asteroide actual.
         //  Los hijos son la mitad de pequeños y un 30% más rápidos.
         void OnCollision(GameObject *other) override;
+
+        int getStage() const;
 };

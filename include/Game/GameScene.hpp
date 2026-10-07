@@ -2,11 +2,13 @@
 
 #include "../Engine/Scene.hpp"
 #include "../Physics/CollisionManager.hpp"
+#include "../Engine/RoundManager.hpp"
 
 
 class GameScene : public Scene{
   public:
     CollisionManager m_collisionManager;
+    RoundManager m_roundManager;
     std::vector<std::unique_ptr<GameObject>> m_pendingObjects; // Creamos un vector que guarde los objetos a añadir en la escena
     using Scene::Scene;
     float m_physicsAccumulator{0.0f};
@@ -30,4 +32,10 @@ class GameScene : public Scene{
 
     // Añade los objetos a la lista de objetos pendientes.
     void Spawn(std::unique_ptr<GameObject> object) override;
+
+    bool StillEnemiesLeft() const;
+
+    RoundManager* GetRoundManager(){
+        return &m_roundManager;
+    }
 };

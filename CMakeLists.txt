@@ -20,9 +20,7 @@ find_package(SDL3 CONFIG REQUIRED)
 # Generamos el ejecutable con el nombre del proyecto
 add_executable(${PROJECT_NAME}
 src/main.cpp
-src/Engine/BallComponent.cpp
 src/Engine/GameObject.cpp
-src/Engine/PlayerControllerComponent.cpp
 src/Engine/RectRenderComponent.cpp
 src/Engine/Scene.cpp
 src/Engine/SceneManager.cpp
@@ -32,6 +30,7 @@ src/Engine/TriangleRenderComponent.cpp
 src/Engine/ProjectileComponent.cpp
 src/Engine/AsteroidComponent.cpp
 src/Engine/ExplosionComponent.cpp
+src/Engine/RoundManager.cpp
 src/Game/GameOverScene.cpp
 src/Game/GameScene.cpp
 src/Game/PauseScene.cpp

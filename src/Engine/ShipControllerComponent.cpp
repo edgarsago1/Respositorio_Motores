@@ -10,7 +10,7 @@
 #include "../../include/Engine/AsteroidComponent.hpp"
 #include "../../include/Engine/ExplosionComponent.hpp"
 #include "../../include/Physics/ColliderComponent.hpp"
-
+#include "../../include/Game/GameScene.hpp"
 void ShipControllerComponent::FixedUpdate(float fixed_dt){
 
     if (!owner) return;
@@ -69,12 +69,12 @@ void ShipControllerComponent::FixedUpdate(float fixed_dt){
 
         current_cooldown--; // llevamos la cuenta de fotogramas para marcar el cooldown de proyectiles
         // Creación del objeto proyectiles 
-        if(((buttons & SDL_BUTTON_RMASK) || keys[SDL_SCANCODE_RETURN] ) && current_cooldown <= 0 && current_deathCooldown <= 0){
+        if(((buttons & SDL_BUTTON_RMASK) || keys[SDL_SCANCODE_RETURN] ) && current_cooldown <= 0 && current_invincibleFrame <= 0){
             current_cooldown = shoot_cooldown;
             auto projectile = std::make_unique<GameObject>("Projectile");
             projectile->AddComponent<TransformComponent>(transform->position + orientation * 30.0f, Vector2{1.0f, 1.0f});
             projectile->AddComponent<RectRenderComponent>(Vector2{5.0f, 5.0f}, SDL_Color{255, 255, 255, 255});
-            projectile->AddComponent<ProjectileComponent>(speed*2, Vector2{5.0f, 5.0f}, orientation, 200.0f);
+            projectile->AddComponent<ProjectileComponent>(speed*2, Vector2{5.0f, 5.0f}, orientation, 400.0f);
             projectile->AddComponent<ColliderComponent>(Vector2{5.0f, 5.0f});
             owner->GetScene()->Spawn(std::move(projectile));
         }    
@@ -100,13 +100,13 @@ void ShipControllerComponent::OnCollision(GameObject *other){
     if(!asteroid_other) return;
     if(current_invincibleFrame <= 0 ){
         InvincibilityPeriod();
-        lives--;
+        if(auto *scene = dynamic_cast<GameScene*>(owner->GetScene())) //Ahora el manejo de vidas lo lleva el manager
+            scene->GetRoundManager()->LostLife();
         if(auto *transform = owner->GetComponent<TransformComponent>()){
             auto explosion = std::make_unique<GameObject>("Explosion");
             explosion->AddComponent<ExplosionComponent>(transform->position, 8);
             owner->GetScene()->Spawn(std::move(explosion));
         }
-        SDL_Log("Player hit! Lives remaining: %d", lives);
     }
 
 }
@@ -114,10 +114,6 @@ void ShipControllerComponent::OnCollision(GameObject *other){
 void ShipControllerComponent::InvincibilityPeriod(){
     current_deathCooldown = death_cooldown;
     current_invincibleFrame = invincible_frames;
-}
-
-bool ShipControllerComponent::IsDefeated(){
-    return (lives < 0);
 }
 
 Vector2 ShipControllerComponent::getOrientation(){

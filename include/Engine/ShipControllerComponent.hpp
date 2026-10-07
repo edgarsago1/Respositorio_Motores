@@ -36,5 +36,4 @@ class ShipControllerComponent : public Component{
 
         void OnCollision(GameObject *other) override;
         void InvincibilityPeriod();
-        bool IsDefeated();
 };

@@ -8,7 +8,6 @@
 #include "../../include/Engine/RectRenderComponent.hpp"
 #include "../../include/Engine/TriangleRenderComponent.hpp"
 #include "../../include/Engine/ShipControllerComponent.hpp"
-#include "../../include/Engine/BallComponent.hpp"
 #include "../../include/Engine/AsteroidComponent.hpp"
 #include "../../include/Engine/ExplosionComponent.hpp"
 #include "../../include/Engine/SceneManager.hpp"
@@ -19,6 +18,7 @@
     void GameScene::Init(){
             m_entities.clear();
             m_collisionManager.SetEntities(&m_entities);
+            m_roundManager.SetScene(this);
             // Armamos del Jugador
             auto player = std::make_unique<GameObject>("Player");
             player->SetScene(this);
@@ -29,33 +29,8 @@
             player->AddComponent<ShipControllerComponent>(300.0f, 3.0f, 20, true);
             player->AddComponent<ColliderComponent>(Vector2{22.0f, 22.0f});
             m_entities.push_back(std::move(player));
-
+            m_roundManager.SetShip(dynamic_cast<ShipControllerComponent*>(m_entities.back()->GetComponent<ShipControllerComponent>()));
             // Entidad Obstáculo: reutiliza Transform y RectRender sin necesitar PlayerController
-            auto obstacle = std::make_unique<GameObject>("Obstacle");
-            obstacle->AddComponent<TransformComponent>(Vector2{180.0f, 140.0f},
-            Vector2{1.5f, 1.5f});
-            obstacle->AddComponent<RectRenderComponent>(Vector2{80.0f, 80.0f},
-            SDL_Color{220, 70, 70, 255});
-            obstacle->AddComponent<ColliderComponent>(Vector2{80.0f, 80.0f});
-            m_entities.push_back(std::move(obstacle));
-
-            auto ball = std::make_unique<GameObject>("Ball");
-            ball->AddComponent<TransformComponent>(Vector2{468.0f, 80.0f}, Vector2{1.0f, 1.0f});
-            ball->AddComponent<RectRenderComponent>(Vector2{24.0f, 24.0f},
-            SDL_Color{240, 210, 60, 255});
-            ball->AddComponent<ColliderComponent>(Vector2{24.0f, 24.0f});
-            ball->AddComponent<BallComponent>();
-            m_entities.push_back(std::move(ball));
-
-            auto asteroid = std::make_unique<GameObject>("Asteroid");
-            asteroid->SetScene(this);
-            asteroid->AddComponent<TransformComponent>(Vector2{380.0f, 240.0f},
-            Vector2{1.0f, 1.0f});
-            asteroid->AddComponent<AsteroidComponent>(2, Vector2{80.0f, 80.0f}, Vector2{1.0f, 0.0f}, 100.0f);
-            asteroid->AddComponent<RectRenderComponent>(Vector2{80.0f, 80.0f},
-            SDL_Color{0, 128, 0, 255});
-            asteroid->AddComponent<ColliderComponent>(Vector2{80.0f, 80.0f});
-            m_entities.push_back(std::move(asteroid));
         }
     // Fase de Actualización: La misma que solíamos tener en main
     void GameScene::Update(float dt){
@@ -65,9 +40,6 @@
             for (auto &entity : m_entities)
                 if(entity && entity->IsActive() && !entity->IsDestroyed()){
                     entity->FixedUpdate(FIXED_TIMESTEP);
-                    if(auto *ship = entity->GetComponent<ShipControllerComponent>())
-                        if(ship->IsDefeated())
-                            m_gameOver = true;
                 }
             m_collisionManager.CheckCollisions();
             m_physicsAccumulator -= FIXED_TIMESTEP;
@@ -77,11 +49,14 @@
                 entity->Update(dt);
         RemoveDestroyedObjects();
         ProcessPendingObjects();
+        m_roundManager.manageRounds();
+        if (m_roundManager.IsDefeated()){
+            m_manager->PushScene(std::make_unique<GameOverScene>(m_manager, "GameOverScene"));
+            SDL_Log("Score Obtenido: %i", m_roundManager.getFinalScore());
+        }
     }
 
     void GameScene::HandleEvent(const SDL_Event &event){
-        if (m_gameOver) 
-            m_manager->PushScene(std::make_unique<GameOverScene>(m_manager, "GameOverScene"));
         
         if (event.type == SDL_EVENT_KEY_DOWN){
             if(event.key.key == SDLK_F1){
@@ -129,7 +104,25 @@
         object->SetScene(this);
         m_pendingObjects.push_back(std::move(object));
     }
-
+    
+    //Determina si hay enemigos en la escena, tanto en los objetos activos como en los pendientes de añadir
+    bool GameScene::StillEnemiesLeft() const{
+        for (auto &entity : m_entities){
+                if(!entity || entity->IsDestroyed() || !entity->IsActive())
+                    continue;
+                if(auto *asteroid = entity->GetComponent<AsteroidComponent>()){
+                    return true;
+                }
+        }
+        for(auto &entity : m_pendingObjects){
+                if(!entity || entity->IsDestroyed() || !entity->IsActive())
+                    continue;
+                if(auto *asteroid = entity->GetComponent<AsteroidComponent>()){
+                    return true;
+                }
+        }
+        return false;
+    }
     void GameScene::ProcessPendingObjects(){
         for(auto &obj : m_pendingObjects){
             m_entities.push_back(std::move(obj));

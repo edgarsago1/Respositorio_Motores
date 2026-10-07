@@ -8,7 +8,7 @@
 #include "../../include/Engine/ExplosionComponent.hpp"
 #include "../../include/Physics/ColliderComponent.hpp"
 #include "../../include/Engine/Scene.hpp"
-
+#include "../../include/Game/GameScene.hpp"
 void AsteroidComponent::FixedUpdate(float fixed_dt){
     if (!owner) return;
     TransformComponent *transform = owner->GetComponent<TransformComponent>();
@@ -32,6 +32,8 @@ void AsteroidComponent::OnCollision(GameObject *other){
             explosion->AddComponent<ExplosionComponent>(transform->position, 8);
             owner->GetScene()->Spawn(std::move(explosion));
     }
+    if(auto *scene = dynamic_cast<GameScene*>(owner->GetScene())) //Lleva la cuenta de puntuación dentro del manager
+            scene->GetRoundManager()->sumScore(stage);
     if(stage > 0){
         Vector2 direction1 = direction.Rotated(20.0f);
         Vector2 direction2 = direction.Rotated(-20.0f);
@@ -50,4 +52,8 @@ void AsteroidComponent::OnCollision(GameObject *other){
     }
     owner->Destroy();
     
+}
+
+int AsteroidComponent::getStage() const{
+    return stage;
 }
