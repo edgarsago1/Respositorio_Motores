@@ -10,6 +10,8 @@ class RoundManager{
         GameScene* m_scene{nullptr}; // Puntero a la escena de ejecución para crear asteroides
         ShipControllerComponent* m_ship{nullptr}; //Puntero al jugador para crear periodos de invisibilidad entre rondas
         int lives{2}; // Contador de vidas
+        int wait_beforeRound{100};
+        int current_wait{100};
     public:
         RoundManager() = default;
 

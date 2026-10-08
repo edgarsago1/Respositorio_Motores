@@ -21,8 +21,6 @@ void ShipControllerComponent::FixedUpdate(float fixed_dt){
         const bool *keys = SDL_GetKeyboardState(nullptr);
         bool advance_mouse_control = false;
         SDL_MouseButtonFlags buttons = SDL_GetMouseState(nullptr, nullptr);
-
-        if (keys[SDL_SCANCODE_1]) follow_mouse = !follow_mouse; // Por el momento haremos que 1 alterne el modo de movimiento}
         // Modo control tanque
         if (!follow_mouse){
             float current_angular_speed = 0.0f;
@@ -114,6 +112,10 @@ void ShipControllerComponent::OnCollision(GameObject *other){
 void ShipControllerComponent::InvincibilityPeriod(){
     current_deathCooldown = death_cooldown;
     current_invincibleFrame = invincible_frames;
+}
+
+void ShipControllerComponent::changeControllers(){
+    follow_mouse = !follow_mouse;
 }
 
 Vector2 ShipControllerComponent::getOrientation(){

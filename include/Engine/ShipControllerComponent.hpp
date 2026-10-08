@@ -35,5 +35,8 @@ class ShipControllerComponent : public Component{
         void FixedUpdate(float fixed_dt) override;
 
         void OnCollision(GameObject *other) override;
+
         void InvincibilityPeriod();
+
+        void changeControllers();
 };

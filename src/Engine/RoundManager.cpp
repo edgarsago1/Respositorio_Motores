@@ -15,6 +15,7 @@ std::uniform_int_distribution<int> distribution(20, 255);
 std::uniform_real_distribution<float> distributionPosX(1.0f, 960.0f);
 std::uniform_real_distribution<float> distributionPosY(1.0f, 540.0f);
 std::uniform_real_distribution<float> direction(0.0f, 1.0f);
+std::uniform_real_distribution<float> size(50.0f, 90.0f); 
 SDL_Color color{0, 0, 0, 255};
 
 void RoundManager::StartRound(){
@@ -24,35 +25,42 @@ void RoundManager::StartRound(){
         color.r = static_cast<Uint8>(distribution(generator));
         color.g = static_cast<Uint8>(distribution(generator));
         color.b = static_cast<Uint8>(distribution(generator));
+        float width = size(generator); // Hacemos la dimensión de los asteroides aleatoria
+        float height = size(generator); // Hacemos la dimensión de los asteroides aleatoria
         auto asteroid1 = std::make_unique<GameObject>("Asteroid");
         asteroid1->AddComponent<TransformComponent>(Vector2{distributionPosX(generator), distributionPosY(generator)} );
-        asteroid1->AddComponent<AsteroidComponent>(2, Vector2{80.0f, 80.0f}, direction, 100.0F);
-        asteroid1->AddComponent<RectRenderComponent>(Vector2{80.0f, 80.0f}, color);
-        asteroid1->AddComponent<ColliderComponent>(Vector2{80.0f, 80.0f});
+        asteroid1->AddComponent<AsteroidComponent>(2, Vector2{width, height}, direction, 100.0F);
+        asteroid1->AddComponent<RectRenderComponent>(Vector2{width, height}, color);
+        asteroid1->AddComponent<ColliderComponent>(Vector2{width, height});
         m_scene->Spawn(std::move(asteroid1));
     }
 
-    m_ship->InvincibilityPeriod();
 }
 void RoundManager::manageRounds(){
     if(!m_scene->StillEnemiesLeft()){
-        current_round++;
-        StartRound();
-        return;
+        if(current_wait == wait_beforeRound)
+            m_ship->InvincibilityPeriod();
+        if(current_wait <= 0){
+            current_round++;
+            StartRound();
+            current_wait = wait_beforeRound;
+            return;
+        } else {
+        current_wait--;
+        }
     }
-
 }
 
 void RoundManager::sumScore(int stage){
     switch (stage) {
         case 2:
-            score += 100; 
+            score += 10; 
             break;
         case 1:
-            score += 200; 
+            score += 20; 
             break;
         case 0:
-            score += 300; 
+            score += 30; 
             break;
         default:
             break;

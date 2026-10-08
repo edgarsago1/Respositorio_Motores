@@ -66,14 +66,19 @@
             if(event.key.key == SDLK_P || event.key.key == SDLK_ESCAPE){
                 m_manager->PushScene(std::make_unique<PauseScene>(m_manager, "PauseScene"));
             // Por el momento G es tecla de depuración, pero debe de haber una condición de derrota
-            } else if(event.key.key == SDLK_G){
-                m_manager->PushScene(std::make_unique<GameOverScene>(m_manager, "GameOverScene"));
+            } else if(event.key.key == SDLK_1){
+                for(auto &entity : m_entities)
+                    if(auto *player = entity->GetComponent<ShipControllerComponent>()){
+                        player->changeControllers();
+                        SDL_Log("Changed Controllers");
+                        break;
+                    }
             }
         }
     }
 
     void GameScene::Render(SDL_Renderer *renderer){
-        SDL_SetRenderDrawColor(renderer, 25, 25, 30, 255);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         for (auto &entity : m_entities){
             if(entity->IsDestroyed() || !entity->IsActive())

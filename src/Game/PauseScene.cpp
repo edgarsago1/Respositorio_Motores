@@ -13,8 +13,8 @@
         SDL_FRect screen_overlay{0.0f, 0.0f, 960.0f, 540.0f};
         SDL_RenderFillRect(renderer, &screen_overlay);
         //  Rectángulo de centro 
-        SDL_FRect pause_square{380, 245, 200, 50};
-        SDL_SetRenderDrawColor(renderer, 255, 230, 93, 255);
+        SDL_FRect pause_square{430, 245, 100, 50};
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderFillRect(renderer, &pause_square);
         //  Rectángulo para hacer el símbolo de pausa.
         SDL_SetRenderDrawColor(renderer, 245, 245, 245, 255);
