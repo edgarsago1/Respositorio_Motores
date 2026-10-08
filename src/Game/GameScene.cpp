@@ -11,9 +11,9 @@
 #include "../../include/Engine/AsteroidComponent.hpp"
 #include "../../include/Engine/ExplosionComponent.hpp"
 #include "../../include/Engine/SceneManager.hpp"
+#include "../../include/Engine/PropulsionComponent.hpp"
 #include "../../include/Game/PauseScene.hpp"
 #include "../../include/Game/GameOverScene.hpp"
-
 
     void GameScene::Init(){
             m_entities.clear();
@@ -89,6 +89,8 @@
                 triangle->Render(renderer);
             if (auto *explosion = entity->GetComponent<ExplosionComponent>()) // Ahora se dibujan particular a la hora de impactarse la nave o algún asteroide.
                 explosion->Render(renderer);
+            if(auto *propulsion = entity->GetComponent<PropulsionComponent>())
+                propulsion->Render(renderer);
         }
         if (m_debugDraw)
             for (auto &entity : m_entities){

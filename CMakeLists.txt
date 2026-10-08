@@ -30,6 +30,7 @@ src/Engine/TriangleRenderComponent.cpp
 src/Engine/ProjectileComponent.cpp
 src/Engine/AsteroidComponent.cpp
 src/Engine/ExplosionComponent.cpp
+src/Engine/PropulsionComponent.cpp
 src/Engine/RoundManager.cpp
 src/Game/GameOverScene.cpp
 src/Game/GameScene.cpp

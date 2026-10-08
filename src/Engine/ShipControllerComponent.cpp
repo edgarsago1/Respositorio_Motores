@@ -11,6 +11,7 @@
 #include "../../include/Engine/ExplosionComponent.hpp"
 #include "../../include/Physics/ColliderComponent.hpp"
 #include "../../include/Game/GameScene.hpp"
+#include "../../include/Engine/PropulsionComponent.hpp"
 void ShipControllerComponent::FixedUpdate(float fixed_dt){
 
     if (!owner) return;
@@ -58,11 +59,23 @@ void ShipControllerComponent::FixedUpdate(float fixed_dt){
         if(buttons & SDL_BUTTON_LMASK) left_click_pressed = true;        
         Vector2 final_direction = {0, 0};
         if(!follow_mouse){ // Lo anterior era la forma de orientar la nave, esta es la forma de hacerlo avanzar de acuerdo a su vector de dirección
-            if(keys[SDL_SCANCODE_W] || keys[SDL_SCANCODE_UP])
+            if(keys[SDL_SCANCODE_W] || keys[SDL_SCANCODE_UP]){
                 final_direction = orientation;
+                if(auto *transform = owner->GetComponent<TransformComponent>()){
+                    auto propulsion = std::make_unique<GameObject>("PropulsionParticles");
+                    propulsion->AddComponent<PropulsionComponent>(transform->position, orientation, 10.0f, 4, current_deathCooldown);
+                    owner->GetScene()->Spawn(std::move(propulsion));
+                }
+            }
         } else {
-            if(left_click_pressed && advance_mouse_control)
+            if(left_click_pressed && advance_mouse_control){
                 final_direction = orientation;
+                if(auto *transform = owner->GetComponent<TransformComponent>()){
+                    auto propulsion = std::make_unique<GameObject>("PropulsionParticles");
+                    propulsion->AddComponent<PropulsionComponent>(transform->position, orientation, 10.0f, 4, current_deathCooldown);
+                    owner->GetScene()->Spawn(std::move(propulsion));
+                }
+            }
         }
 
         current_cooldown--; // llevamos la cuenta de fotogramas para marcar el cooldown de proyectiles
