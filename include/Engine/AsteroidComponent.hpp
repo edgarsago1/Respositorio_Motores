@@ -19,4 +19,7 @@ class AsteroidComponent : public Component{
         void OnCollision(GameObject *other) override;
 
         int getStage() const;
+
+        // Función que aleatoriamente determina cuántos asteroides hijos nacen de de un asteroide stage 3 o 2
+        int numberofAsteroids();
 };

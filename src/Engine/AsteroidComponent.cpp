@@ -1,6 +1,7 @@
 #include "../../include/Engine/AsteroidComponent.hpp"
 
 #include <cmath>
+#include <random>
 #include "../../include/Engine/TransformComponent.hpp"
 #include "../../include/Engine/GameObject.hpp"
 #include "../../include/Engine/ProjectileComponent.hpp"
@@ -35,20 +36,22 @@ void AsteroidComponent::OnCollision(GameObject *other){
     if(auto *scene = dynamic_cast<GameScene*>(owner->GetScene())) //Lleva la cuenta de puntuación dentro del manager
             scene->GetRoundManager()->sumScore(stage);
     if(stage > 0){
-        Vector2 direction1 = direction.Rotated(20.0f);
-        Vector2 direction2 = direction.Rotated(-20.0f);
-        auto asteroid1 = std::make_unique<GameObject>("Asteroid");
-        asteroid1->AddComponent<TransformComponent>(transform->position);
-        asteroid1->AddComponent<AsteroidComponent>(stage-1, Vector2{size.x/2, size.y/2}, direction1, speed*1.3f);
-        asteroid1->AddComponent<RectRenderComponent>(Vector2{size.x/2, size.y/2}, rect->color);
-        asteroid1->AddComponent<ColliderComponent>(Vector2{size.x/2, size.y/2});
-        owner->GetScene()->Spawn(std::move(asteroid1));
-        auto asteroid2 = std::make_unique<GameObject>("Asteroid");
-        asteroid2->AddComponent<TransformComponent>(transform->position);
-        asteroid2->AddComponent<AsteroidComponent>(stage-1, Vector2{size.x/2, size.y/2}, direction2, speed*1.3f);
-        asteroid2->AddComponent<RectRenderComponent>(Vector2{size.x/2, size.y/2}, rect->color);
-        asteroid2->AddComponent<ColliderComponent>(Vector2{size.x/2, size.y/2});
-        owner->GetScene()->Spawn(std::move(asteroid2));
+        Vector2 direction1 = direction;
+        float angle = 20.0f; // Ángulo de rotación en grados
+        for(int i = 0; i < numberofAsteroids(); i++){
+            if(i % 2 == 0)
+                direction1 = direction.Rotated(angle);
+            else
+                direction1 = direction.Rotated(-angle);
+            auto asteroid1 = std::make_unique<GameObject>("Asteroid");
+            asteroid1->AddComponent<TransformComponent>(transform->position);
+            asteroid1->AddComponent<AsteroidComponent>(stage-1, Vector2{size.x/2, size.y/2}, direction1, speed*1.3f);
+            asteroid1->AddComponent<RectRenderComponent>(Vector2{size.x/2, size.y/2}, rect->color);
+            asteroid1->AddComponent<ColliderComponent>(Vector2{size.x/2, size.y/2});
+            owner->GetScene()->Spawn(std::move(asteroid1));
+            angle += 20.0f; // Incrementamos el ángulo para el siguiente asteroide
+        }
+        
     }
     owner->Destroy();
     
@@ -56,4 +59,16 @@ void AsteroidComponent::OnCollision(GameObject *other){
 
 int AsteroidComponent::getStage() const{
     return stage;
+}
+
+int AsteroidComponent::numberofAsteroids(){
+    std::random_device rd;
+    std::mt19937 generator(rd());
+    std::uniform_int_distribution<int> distribution(1, 10);
+    int number = distribution(generator);
+    if(number < 6 )
+        return 2;
+    else if(number < 9 )
+        return 3;
+    else return 4;
 }
