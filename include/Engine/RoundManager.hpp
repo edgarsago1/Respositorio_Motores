@@ -38,6 +38,9 @@ class RoundManager{
         // Pensado para devolver la ronda actual del juego
         int getRounds() const;
 
+        //Pensado para devolver la cantidad de vidas restantes
+        int getLives() const;
+
         // Pensado para modificar el score de acuerdo al asteroide destruido
         void sumScore(int stage);
 

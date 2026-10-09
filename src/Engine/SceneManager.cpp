@@ -77,3 +77,7 @@
         for(const auto& scene : m_scenes)
             scene->Render(renderer);
     }
+
+    SDL_Window* SceneManager::GetWindow() const{
+        return window;
+    }

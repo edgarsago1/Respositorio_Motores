@@ -15,9 +15,12 @@ private:
     std::vector<std::unique_ptr<Scene>> m_scenes;
     SceneAction m_pendingAction{SceneAction::None};
     std::unique_ptr<Scene> m_pendingScene{nullptr};
-
+    SDL_Window* window{nullptr};
 public:
 
+    void SetWindow(SDL_Window* win){
+        window = win;
+    }
     bool HasScenes();
 
     void ChangeScene(std::unique_ptr<Scene> new_scene);
@@ -39,4 +42,5 @@ public:
     // Hace el render de cada una de las escenas.
     void Render(SDL_Renderer *renderer);
 
+    SDL_Window* GetWindow() const;
 };

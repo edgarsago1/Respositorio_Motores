@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <memory>
 #include <vector>
+#include <string>
 #include "../../include/Engine/GameObject.hpp"
 #include "../../include/Engine/TransformComponent.hpp"
 #include "../../include/Engine/RectRenderComponent.hpp"
@@ -50,9 +51,12 @@
         RemoveDestroyedObjects();
         ProcessPendingObjects();
         m_roundManager.manageRounds();
+        std::string title = "Squares vs Triangle | Lives: " + std::to_string(m_roundManager.getLives()) + " | Score: " + std::to_string(m_roundManager.getScore());
+        SDL_SetWindowTitle(m_manager->GetWindow(), title.c_str());
         if (m_roundManager.IsDefeated()){
             m_manager->PushScene(std::make_unique<GameOverScene>(m_manager, "GameOverScene"));
-            SDL_Log("Score Obtenido: %i", m_roundManager.getFinalScore());
+            std::string final_score = "Squares vs Triangle | Final Score: " + std::to_string(m_roundManager.getFinalScore());
+            SDL_SetWindowTitle(m_manager->GetWindow(), final_score.c_str());
         }
     }
 

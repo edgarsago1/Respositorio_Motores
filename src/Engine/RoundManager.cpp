@@ -73,6 +73,10 @@ int RoundManager::getScore() const{
     return score;
 }
 
+int RoundManager::getLives() const{
+    return lives;
+}
+
 int RoundManager::getFinalScore() const{
     return score * current_round;
 }

@@ -12,6 +12,8 @@ SDL_FRect rect1 = SDL_FRect{600, 100, size_square(generator1), size_square(gener
 SDL_Vertex decorativeTriangleVertex[3];
 
     void TitleScene::Render(SDL_Renderer *renderer){
+            std::string title_name = "Squares vs Triangle | Press Enter to Start";
+            SDL_SetWindowTitle(m_manager->GetWindow(), title_name.c_str());
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
             // Figuras decorativas. Un cuadradito que cambia de color y tamaño cada cierto tiempo.

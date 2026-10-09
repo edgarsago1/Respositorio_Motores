@@ -47,6 +47,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
     ::appstate.window = window;
     ::appstate.renderer = renderer;
     ::appstate.last_ticks = SDL_GetTicks();
+    ::appstate.sceneManager.SetWindow(window);
     ::appstate.sceneManager.ChangeScene(std::make_unique<TitleScene>(&::appstate.sceneManager, "TitleScene"));
     ::appstate.sceneManager.ProcessPendingChanges();
     *appstate = &::appstate;
