@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Engine/GameObject.hpp"
-#include "ColliderComponent.hpp"
+#include "../Engine/Components/ColliderComponent.hpp"
 
 class CollisionManager{
     public:

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../include/Engine/Scene.hpp"
-
+#include "Scene.hpp"
+#include "ResourceManager.hpp"
 enum class SceneAction {
     None,
     Change,
@@ -16,11 +16,18 @@ private:
     SceneAction m_pendingAction{SceneAction::None};
     std::unique_ptr<Scene> m_pendingScene{nullptr};
     SDL_Window* window{nullptr};
+    ResourceManager* m_resource_manager{nullptr};
 public:
 
     void SetWindow(SDL_Window* win){
         window = win;
     }
+
+    // Le da un apuntador del administrador de recursos al manager para comunicación con escenas, pero por reglas, scenemanager no puede modificar al manager
+    void SetResourceManager(ResourceManager* manager){
+        m_resource_manager = manager;
+    }
+
     bool HasScenes();
 
     void ChangeScene(std::unique_ptr<Scene> new_scene);
@@ -43,4 +50,6 @@ public:
     void Render(SDL_Renderer *renderer);
 
     SDL_Window* GetWindow() const;
+
+    ResourceManager* GetResourceManager() const;
 };

@@ -2,10 +2,10 @@
 
 #include <SDL3/SDL.h>
 
-#include "Component.hpp"
-#include "../Math/Vector2.hpp"
-class RectRenderComponent : public Component
-{
+#include "../Component.hpp"
+#include "../../Math/Vector2.hpp"
+
+class RectRenderComponent : public Component{
     public:
     Vector2 size{60.0f, 60.0f};
     SDL_Color color{60, 180, 100, 255};

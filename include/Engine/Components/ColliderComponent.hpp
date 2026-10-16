@@ -1,6 +1,6 @@
 #pragma once
-#include "../Engine/Component.hpp"
-#include "../Math/Vector2.hpp"
+#include "../../Engine/Component.hpp"
+#include "../../Math/Vector2.hpp"
  
 class ColliderComponent : public Component{
     public:

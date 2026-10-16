@@ -4,8 +4,8 @@
 #include <SDL3/SDL_main.h>
 
 #include "../include/Engine/SceneManager.hpp"
-#include "../include/Game/TitleScene.hpp"
-
+#include "../include/Engine/ResourceManager.hpp"
+#include "../include/Game/ResourceDemoScene.hpp"
 void SDL_LogPlatformInfo(); 
 
 struct AppState
@@ -17,6 +17,7 @@ struct AppState
     Uint64 last_ticks{0};
     // Modo de depuración visual para inspeccionar colisionadores
     SceneManager sceneManager;
+    ResourceManager resourceManager;
 
 } appstate;
 
@@ -36,7 +37,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
 
-    if (!SDL_CreateWindowAndRenderer("Práctica 05", 960, 540, SDL_WINDOW_RESIZABLE, &window, &renderer))
+    if (!SDL_CreateWindowAndRenderer("Práctica 06", 960, 540, SDL_WINDOW_RESIZABLE, &window, &renderer))
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error al crear ventana o renderer: %s", SDL_GetError());
         return SDL_APP_FAILURE;
@@ -48,7 +49,9 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv)
     ::appstate.renderer = renderer;
     ::appstate.last_ticks = SDL_GetTicks();
     ::appstate.sceneManager.SetWindow(window);
-    ::appstate.sceneManager.ChangeScene(std::make_unique<TitleScene>(&::appstate.sceneManager, "TitleScene"));
+    ::appstate.resourceManager.SetRenderer(renderer);
+    ::appstate.sceneManager.SetResourceManager(&::appstate.resourceManager);
+    ::appstate.sceneManager.ChangeScene(std::make_unique<ResourceDemoScene>(&::appstate.sceneManager, "ResourceDemoScene"));
     ::appstate.sceneManager.ProcessPendingChanges();
     *appstate = &::appstate;
     
@@ -80,10 +83,14 @@ SDL_AppResult SDL_AppIterate(void *appstate)
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 {
     AppState *app = static_cast<AppState *>(appstate);
-    if (event->type == SDL_EVENT_QUIT)
+    if (event->type == SDL_EVENT_QUIT )
     {
         return SDL_APP_SUCCESS;
     }
+    if (event->type == SDL_EVENT_KEY_DOWN)
+            if(event->key.key == SDLK_ESCAPE)
+                return SDL_APP_SUCCESS;
+
     if (app && app->sceneManager.HasScenes()){
         app->sceneManager.HandleEvent(*event);
     }
@@ -96,6 +103,7 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result)
     if (app)
     {
         app->sceneManager.Clear();
+        app->resourceManager.Clear(); // LIBERACIÓN CORRECTA DE RECURSOS
         SDL_DestroyRenderer(app->renderer);
         SDL_DestroyWindow(app->window);
     }

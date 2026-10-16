@@ -1,6 +1,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
-#include "../../include/Engine/TransformComponent.hpp"
+#include "../../../include/Engine/Components/TransformComponent.hpp"
 double pi = M_PI;
 
 void TransformComponent::Translate(const Vector2 &offset){

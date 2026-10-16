@@ -81,3 +81,7 @@
     SDL_Window* SceneManager::GetWindow() const{
         return window;
     }
+
+    ResourceManager* SceneManager::GetResourceManager() const{
+        return m_resource_manager;
+    }

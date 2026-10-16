@@ -1,7 +1,7 @@
-#include "../../include/Engine/RectRenderComponent.hpp"
+#include "../../../include/Engine/Components/RectRenderComponent.hpp"
 
-#include "../../include/Engine/GameObject.hpp"
-#include "../../include/Engine/TransformComponent.hpp"
+#include "../../../include/Engine/GameObject.hpp"
+#include "../../../include/Engine/Components/TransformComponent.hpp"
 
 void RectRenderComponent::Render(SDL_Renderer *renderer)
     {
