@@ -1,8 +1,9 @@
 #pragma once
 #include "../../Engine/Component.hpp"
+
 #include <memory>
 #include <SDL3/SDL.h>
-
+#include "../../Math/Vector2.hpp"
 class SpriteComponent : public Component{
 private:
     SDL_Texture* m_texture{nullptr};
@@ -12,6 +13,13 @@ private:
     float m_height{0.0f};
     SDL_Color m_colorMod{255, 255, 255, 255};
     SDL_FlipMode m_flip{SDL_FLIP_NONE};
+
+    // Implementación de cajas y paralaje
+    int m_layer{0}; // Capa de ordenamiento (Z-Order)
+
+    Vector2 m_parallaxFactor{1.0f, 1.0f}; // Sensibilidad al movimiento de la cámara
+    bool m_affectedByCamera{true}; // Falso para elementos estáticos de UI
+
 public:
     SpriteComponent() = default;
 
@@ -26,4 +34,17 @@ public:
             m_useSrcRect = true;
     }
     void Render(SDL_Renderer *renderer) override;
+
+    void SetFlipMode(SDL_FlipMode mode){ m_flip = mode; }
+    void SetLayer(int layer) { m_layer = layer; }
+    int GetLayer() const { return m_layer; }
+    void SetParallaxFactor(const Vector2 &factor) { m_parallaxFactor = factor;}
+
+    const Vector2 &GetParallaxFactor() const { return m_parallaxFactor; }
+
+    void SetAffectedByCamera(bool affected) { m_affectedByCamera = affected;}
+
+    bool IsAffectedByCamera() const { return m_affectedByCamera; }
+
+    void SetSourceRect(SDL_FRect rect);
 };

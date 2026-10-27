@@ -63,3 +63,8 @@
         float angle_rad = angle * 3.1415926 / 180.0f;
         return Vector2{x * std::cos(angle_rad) - y * std::sin(angle_rad), x * std::sin(angle_rad) + y * std::cos(angle_rad)};
     }
+
+    Vector2 Vector2::Lerp(const Vector2 &other, float t) const{
+        Vector2 this_vector = *this;
+        return this_vector + (other - this_vector)*t;
+    }

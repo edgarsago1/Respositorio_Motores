@@ -35,4 +35,7 @@ struct Vector2
 
     // Hacemos la rotación de un Vector
     Vector2 Rotated(float angle) const;
+     
+    //Función de interpolación lineal
+    Vector2 Lerp(const Vector2 &other, float t) const;
 };

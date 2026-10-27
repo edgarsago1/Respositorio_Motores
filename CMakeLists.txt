@@ -52,6 +52,8 @@ src/Engine/GameObject.cpp
 src/Engine/Scene.cpp
 src/Engine/SceneManager.cpp
 src/Engine/ResourceManager.cpp
+src/Engine/Camera2D.cpp
+src/Engine/Components/AnimationComponent.cpp
 src/Engine/Components/TransformComponent.cpp
 src/Engine/Components/RectRenderComponent.cpp
 src/Engine/Components/PlayerControllerComponent.cpp
